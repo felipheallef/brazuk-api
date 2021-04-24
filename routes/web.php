@@ -16,7 +16,7 @@
 //use Illuminate\Http\Response;
 
 $router->get('/', function () use ($router) {
-    return response()->json(['info' => 'Welcome to this API.']);
+    return response(['error' => ['code' => 418, 'description' => 'I\'m a teapot']], 418);
 });
 
 $router->get('/info', 'UserController@displayInfo');

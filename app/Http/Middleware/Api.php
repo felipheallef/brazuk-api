@@ -19,6 +19,7 @@ class Api
         $response->header('Content-Type', 'application/json');
         $response->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Content-Range, Content-Disposition, Content-Description, X-Auth-Token');
         $response->header('Access-Control-Allow-Origin', '*');
+        $response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         // Add more headers here if neccessary
 
         return $response;

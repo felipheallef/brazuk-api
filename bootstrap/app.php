@@ -73,7 +73,7 @@ $app->configure('app');
 */
 
 $app->middleware([
-    App\Http\Middleware\Api::class
+    App\Http\Middleware\LumenCors::class
 ]);
 
 // $app->routeMiddleware([

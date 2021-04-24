@@ -54,5 +54,25 @@ class FilmsController extends Controller
 
     }
 
+    public function fetchBySlug($slug)
+    {
+    
+    	$info = app('db')->select("SELECT * FROM tbl_films WHERE slug ='{$slug}'");
+    	$data = ['films' => $info];
+
+        if (count($info) > 0)
+        {
+            return (new Response(json_encode($info[0]), 200))
+            ->header('Content-Type', 'application/json')
+            ->header('Access-Control-Allow-Origin', '*');
+        } else
+        {
+            return (new Response(json_encode(['status' => '404', 'error' => ['message' => "Resource not found."]]), 404))
+            ->header('Content-Type', 'application/json')
+            ->header('Access-Control-Allow-Origin', '*');
+        }
+
+    }
+
     //
 }

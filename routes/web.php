@@ -19,9 +19,14 @@ $router->get('/', function () use ($router) {
     return response(['error' => ['code' => 418, 'description' => 'I\'m a teapot']], 418);
 });
 
+$router->group(['prefix' => 'catalog'], function () use ($router) {
+
+    $router->get('/films', 'Catalog\FilmsController@getAllFilms');
+    $router->get('/films/{id:[0-9]+}', 'Catalog\FilmsController@displayInfo');
+    $router->get('/films/{slug}', 'Catalog\FilmsController@fetchBySlug');
+    // TODO: what languages a film is available in
+    $router->get('/films/{id}/languages', 'Catalog\FilmsController@getFilmLanguages');
+
+});
+
 $router->get('/info', 'UserController@displayInfo');
-$router->get('/catalog/films', 'Catalog\FilmsController@getAllFilms');
-$router->get('/catalog/films/{id:[0-9]+}', 'Catalog\FilmsController@displayInfo');
-$router->get('/catalog/films/{slug}', 'Catalog\FilmsController@fetchBySlug');
-// TODO: what languages a film is available in
-$router->get('/catalog/films/{id}/languages', 'Catalog\FilmsController@getFilmLanguages');

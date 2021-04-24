@@ -21,7 +21,7 @@ $router->get('/', function () use ($router) {
 
 $router->get('/info', 'UserController@displayInfo');
 $router->get('/catalog/films', 'Catalog\FilmsController@getAllFilms');
-$router->get('/catalog/films/{id}', 'Catalog\FilmsController@displayInfo')->where('id', '[0-9]+');
+$router->get('/catalog/films/{id:[0-9]+}', 'Catalog\FilmsController@displayInfo');
 $router->get('/catalog/films/{slug}', 'Catalog\FilmsController@fetchBySlug');
 // TODO: what languages a film is available in
 $router->get('/catalog/films/{id}/languages', 'Catalog\FilmsController@getFilmLanguages');

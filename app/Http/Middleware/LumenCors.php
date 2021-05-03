@@ -105,6 +105,7 @@ class LumenCors {
         }
         else {
             $response = $next($request);
+            $response->header('Content-Type', 'application/json');
         }
 
         $this->setCorsHeaders($request, $response);

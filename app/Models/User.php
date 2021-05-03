@@ -13,6 +13,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory;
 
+    const CREATED_AT = 'time_added';
+    const UPDATED_AT = 'time_updated';
+
     /**
      * The attributes that are mass assignable.
      *

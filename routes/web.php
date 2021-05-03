@@ -19,6 +19,13 @@ $router->get('/', function () use ($router) {
     return response(['error' => ['code' => 418, 'description' => 'I\'m a teapot']], 418);
 });
 
+$router->group(['prefix' => 'account'], function () use ($router) {
+
+    $router->post('/login', 'Account\LoginController@login');
+
+});
+
+
 $router->group(['prefix' => 'catalog'], function () use ($router) {
 
     $router->get('/films', 'Catalog\FilmsController@getAllFilms');

@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
             $message = "Internal server error.";
         }
 
-        return response(json_encode(['status' => $code, 'error' => ['message' => $message]]), $code)
+        return response(json_encode(['status' => $code, 'error' => ['message' => $exception->getMessage()]]), $code)
                         ->header('Content-Type', 'application/json');
 
         // return parent::render($request, $exception);

@@ -10,6 +10,7 @@ use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use App\Exceptions\Error;
 
 class Handler extends ExceptionHandler
 {
@@ -53,17 +54,24 @@ class Handler extends ExceptionHandler
     {
 
         if($exception instanceof NotFoundHttpException){
-            $code = 404;
-            $message = "Resource not found.";
+            $error = new Error(404, "Resource not found.");
         } elseif ($exception instanceof QueryException) {
-            $code = 500;
-            $message = "An error occorred while trying to connect to the database.";
+            $error = new Error(500, "An error occorred while trying to connect to the database.");
         } else {
-            $code = 500;
-            $message = "Internal server error.";
+            $error = new Error(500, "Internal server error.");
         }
 
-        return response(json_encode(['status' => $code, 'error' => ['message' => $exception->getMessage()]]), $code)
+        $response = ['status' => $error->getCode(),
+                     'data' => null,
+                     'errors' => [
+                         'code' => $error->getCode(),
+                         'type' => get_class($exception),
+                         'message' => $exception->getMessage()
+                     ]];
+
+        return responder()->error(get_class($exception), $exception->getMessage())->respond();
+
+        return response(json_encode($response), $error->getCode())
                         ->header('Content-Type', 'application/json');
 
         // return parent::render($request, $exception);

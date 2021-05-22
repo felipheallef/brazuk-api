@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Catalog;
 
-use App\Film;
+use App\Models\Film;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+
+use App\Exceptions\ApiException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Flugg\Responder\Responder;
 
 class FilmsController extends Controller
 {
@@ -20,7 +24,7 @@ class FilmsController extends Controller
     
     public function getAllFilms()
     {
-        return response()->json(['status' => 200, 'data' => Film::all()]);
+        return responder()->success(Film::all())->respond();
     }
 
     public function listFilms()
@@ -36,20 +40,12 @@ class FilmsController extends Controller
 
     public function displayInfo($id)
     {
-    
-    	$info = app('db')->select("SELECT * FROM tbl_films WHERE film_id ='{$id}'");
-    	$data = ['films' => $info];
 
-        if (count($info) > 0)
-        {
-            return (new Response(json_encode($info[0]), 200))
-            ->header('Content-Type', 'application/json')
-            ->header('Access-Control-Allow-Origin', '*');
-        } else
-        {
-            return (new Response(json_encode(['status' => '404', 'error' => ['message' => "Resource not found."]]), 404))
-            ->header('Content-Type', 'application/json')
-            ->header('Access-Control-Allow-Origin', '*');
+        try {
+            $film = Film::where('film_id', $id)->firstOrFail();
+            return responder()->success($film)->respond();
+        } catch(ModelNotFoundException $e) {
+            throw new ApiException("Film with id $id not found.");
         }
 
     }
@@ -57,19 +53,11 @@ class FilmsController extends Controller
     public function fetchBySlug($slug)
     {
     
-    	$info = app('db')->select("SELECT * FROM tbl_films WHERE slug ='{$slug}'");
-    	$data = ['films' => $info];
-
-        if (count($info) > 0)
-        {
-            return (new Response(json_encode($info[0]), 200))
-            ->header('Content-Type', 'application/json')
-            ->header('Access-Control-Allow-Origin', '*');
-        } else
-        {
-            return (new Response(json_encode(['status' => '404', 'error' => ['message' => "Resource not found."]]), 404))
-            ->header('Content-Type', 'application/json')
-            ->header('Access-Control-Allow-Origin', '*');
+    	try {
+            $film = Film::where('slug', $slug)->firstOrFail();
+            return responder()->success($film)->respond();
+        } catch(ModelNotFoundException $e) {
+            throw new ApiException("Film with slug $slug not found.");
         }
 
     }

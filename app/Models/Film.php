@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Film extends Model
 {
+
+    const CREATED_AT = 'time_added';
+    const UPDATED_AT = 'last_updated';
 
     /**
      * The attributes that are mass assignable.

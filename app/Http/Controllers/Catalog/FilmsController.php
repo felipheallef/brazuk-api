@@ -27,17 +27,6 @@ class FilmsController extends Controller
         return responder()->success(Film::all())->respond();
     }
 
-    public function listFilms()
-    {
-    
-    	$info = app('db')->select('SELECT * FROM tbl_films');
-    	$data = ['films' => $info];
-    
-    	return (new Response(json_encode($data), 200))
-                  ->header('Content-Type', 'application/json')
-                  ->header('Access-Control-Allow-Origin', '*');
-    }
-
     public function displayInfo($id)
     {
 

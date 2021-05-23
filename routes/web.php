@@ -22,6 +22,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'account'], function () use ($router) {
 
     $router->post('/login', 'Account\LoginController@login');
+    $router->post('/signup', 'Account\SignupController@signup');
 
 });
 

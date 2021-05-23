@@ -13,9 +13,10 @@ class ExampleTest extends TestCase
     public function testExample()
     {
         $this->get('/');
+        $version = $this->app->version();
 
         $this->assertEquals(
-            $this->app->version(), $this->response->getContent()
+            "{\"error\":{\"code\":418,\"description\":\"I'm a teapot\"}}", $this->response->getContent()
         );
     }
 }

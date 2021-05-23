@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class LoginController extends Controller
@@ -30,7 +30,6 @@ class LoginController extends Controller
             $email = $request->email;
             $password = $request->password;
 
-            $found = true;
             $user = User::where('email', $email)->first();
 
             if($user == null) {
@@ -50,6 +49,11 @@ class LoginController extends Controller
             
         }
 
+    }
+
+    public function logout(Request $request)
+    {
+        return "hey";
     }
 
 }

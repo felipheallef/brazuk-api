@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Firebase\JWT\JWT;
 
 class LoginController extends Controller
 {
@@ -38,7 +39,24 @@ class LoginController extends Controller
 
             if (password_verify($password, $user->password))
             {
-                return responder()->success($user)->respond();
+
+                $payload = array(
+                    "iss" => "Brazuk API",
+                    "aud" => "brazuk-api",
+                    "iat" => time(),
+                    "exp" => time() + 7889400,
+                    "sub" => $user->email,
+                    "name" => $user->name,
+                    "surname" => $user->surname,
+                    "email" => $user->email
+                );
+
+                $jwt = JWT::encode($payload, env('JWT_KEY'));
+
+                $data = $user;
+                $data->token = $jwt;
+
+                return responder()->success($data)->respond();
                 return response(['status' => 200, 'message' => 'Login successful.', 'user' => $user], 200);
             }
             else

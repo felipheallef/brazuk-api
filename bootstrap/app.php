@@ -73,6 +73,7 @@ $app->configure('app');
 */
 
 $app->middleware([
+    App\Http\Middleware\Authenticate::class,
     App\Http\Middleware\LumenCors::class
 ]);
 

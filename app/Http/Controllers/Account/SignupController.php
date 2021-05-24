@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Firebase\JWT\JWT;
 
 class SignupController extends Controller
 {
@@ -57,7 +58,7 @@ class SignupController extends Controller
                             'email' => $request->email,
                             'password' => password_hash($request->password, PASSWORD_DEFAULT),
                         ]);
-
+                        
                         return responder()->success($user)->respond(201);
 
                     } else 
